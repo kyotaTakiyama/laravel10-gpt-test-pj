@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 class Chatgpt
 {
     protected $url;
-    protected $api_key;
+    protected $apiKey;
     protected $headers;
 
     public function __construct()
@@ -16,16 +16,16 @@ class Chatgpt
         $this->url = "https://api.openai.com/v1/chat/completions";
 
         // APIキー
-        $this->api_key = env('CHAT_GPT_KEY');
+        $this->apiKey = env('CHAT_GPT_KEY');
 
         // ヘッダー
         $this->headers = array(
             "Content-Type" => "application/json",
-            "Authorization" => "Bearer $this->api_key"
+            "Authorization" => "Bearer $this->apiKey"
         );
     }
 
-    public function chat_gpt($system, $user)
+    public function chatExec($system, $user)
     {
         // パラメータ
         $data = array(

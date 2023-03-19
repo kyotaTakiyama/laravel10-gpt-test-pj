@@ -36,7 +36,7 @@ class ChatGptController extends Controller
 
         // ChatGPT API処理
         $Chatgpt = new Chatgpt();
-        $chat_response = $Chatgpt->chat_gpt("日本語で応答してください", $sentence);
+        $chat_response = $Chatgpt->chatExec("日本語で応答してください", $sentence);
 
         return view('chat', compact('sentence', 'chat_response'));
     }
