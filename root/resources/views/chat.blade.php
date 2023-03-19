@@ -9,6 +9,10 @@
     <form method="POST">
         @csrf
         <textarea rows="10" cols="50" name="sentence">{{ isset($sentence) ? $sentence : '' }}</textarea>
+        @error('sentence')
+            <div>{{ $message }}</div>
+        @enderror
+
         <button type="submit">ChatGPT</button>
     </form>
 
