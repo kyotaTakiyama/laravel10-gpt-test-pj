@@ -5,14 +5,6 @@
 </head>
 
 <body>
-    <ul>
-        @if (isset($futureSchedule))
-            @foreach($futureSchedule as $schedule)
-                <li>{{ $schedule['name'] }}<br>{{ $schedule['description'] }}<br>{{ $schedule['startDateTime'] }}〜<br>{{ $schedule['endDateTime'] }}</li>
-            @endforeach
-        @endif
-    </ul>
-
     {{-- フォーム --}}
     <form method="POST">
         @csrf
@@ -25,7 +17,30 @@
     </form>
 
     {{-- 結果 --}}
-    {{ isset($chat_response) ? $chat_response : '' }}
+    {{ isset($chatResponse) ? $chatResponse : '' }}
+
+        @if (isset($futureSchedule))
+            @foreach($futureSchedule as $schedule)
+                <ul>
+                    <li>{{ $schedule['name'] }}</li>
+                    <li>{{ $schedule['startDateTime'] }}〜{{ $schedule['endDateTime'] }}</li>
+                    <li>{{ $schedule['description'] }}</li>
+                </ul>
+            @endforeach
+        @endif
+
+    @if (isset($chatResponseObj))
+    <strong>{{ $result }}</strong>
+        <ul>
+            <li>{{ $chatResponseObj->title }}</li>
+            <li>{{ $chatResponseObj->date }}</li>
+            <li>{{ $chatResponseObj->description }}</li>
+        </ul>
+    @endif
+
+    @if (isset($e))
+        <strong>{{ $e }}</strong>
+    @endif
 </body>
 
 </html>

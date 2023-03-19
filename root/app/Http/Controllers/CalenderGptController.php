@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Exception;
 
 use App\Modules\Chatgpt;
 use App\Modules\GoogleCalendarOperation;
@@ -36,18 +37,45 @@ class CalenderGptController extends Controller
         // ChatGPT API処理
         $Chatgpt = new Chatgpt();
         $system =  GptSystemConstants::CALENDAR_ASSISTANT_SYSTEM_MESSAGE;
-        $chat_response = $Chatgpt->chatExec($system, $sentence);
+        $chatResponse = $Chatgpt->chatExec($system, $sentence);
 
-        $GoogleCalenderOperation = new GoogleCalendarOperation();
-        //GPTのレスポンスによってGoogleカレンダーを操作する。
-        if ($chat_response === 'getFutureSchedule') {
-            $futureSchedule = $GoogleCalenderOperation->getFutureSchedule();
-            // calender.blade.phpに変数を渡して表示する
-            return view('calender', ['futureSchedule' => $futureSchedule]);
+        //カレンダー操作が行われる場合、JSONでレスポンスがくるので、オブジェクトに直す
+        $chatResponseObj = json_decode($chatResponse);
+
+        if (!$chatResponseObj) {
+            //カレンダー操作に関連しない入力があった場合、通常レスポンスを返す
+            return view('calender', compact('sentence', 'chatResponse'));
         }
 
-        //カレンダー操作に関連しない入力があった際には通常レスポンスを返す
-        return view('calender', compact('sentence', 'chat_response'));
+        //GPTのレスポンスによってGoogleカレンダーを操作する。
+        $GoogleCalenderOperation = new GoogleCalendarOperation();
+
+        switch ($chatResponseObj->output) {
+            case 'getFutureSchedule':
+                $futureSchedule = $GoogleCalenderOperation->getFutureSchedule();
+                return view('calender', ['futureSchedule' => $futureSchedule]);
+                break;
+
+            case 'createSchedule':
+                try {
+                    $GoogleCalenderOperation->createSchedule($chatResponseObj);
+
+                    // 予定追加した旨を通知する
+                    $result = '予定を追加しました';
+                    return view('calender', compact('chatResponseObj', 'result'));
+                } catch (Exception $e) {
+                    // エラー時
+                    $result = '予定を追加できませんでした';
+                    return view('calender', compact('chatResponseObj', 'result', 'e'));
+                }
+                break;
+
+            default:
+                // 処理が見つからない場合
+                return response('処理が見つかりませんでした。', 404);
+                break;
+        }
+
     }
 }
 

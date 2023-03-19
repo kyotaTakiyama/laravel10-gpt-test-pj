@@ -2,6 +2,7 @@
 
 namespace App\Modules;
 
+use Illuminate\Support\Carbon;
 use Spatie\GoogleCalendar\Event;
 
 class GoogleCalendarOperation
@@ -26,5 +27,16 @@ class GoogleCalendarOperation
             ];
         }
         return $futureSchedule;
+    }
+
+    public function createSchedule(Object $scheduleData) {
+        $date = new Carbon($scheduleData->date);
+
+        $event = new Event;
+        $event->name = $scheduleData->title;
+        $event->startDateTime = $date;
+        $event->endDateTime = $date->addHour();   // 1時間後
+        $event->description = $scheduleData->description;
+        $event->save();
     }
 }
