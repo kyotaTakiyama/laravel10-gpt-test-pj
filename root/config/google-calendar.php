@@ -13,7 +13,7 @@ return [
             /*
              * Path to the json file containing the credentials.
              */
-            'credentials_json' => storage_path('../storage/json/inner-arch-381111-0c8202ce9b49.json'),
+            'credentials_json' => storage_path(env('GOOGLE_APPLICATION_CREDENTIALS')),
         ],
 
         /*
