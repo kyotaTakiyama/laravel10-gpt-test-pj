@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatGptController;
+use App\Http\Controllers\CalenderGptController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +16,12 @@ use App\Http\Controllers\ChatGptController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('top');
 });
 
-Route::get('/chat', [ChatGptController::class, 'index'])->name('chat_gpt-index');
-Route::post('/chat', [ChatGptController::class, 'chat'])->name('chat_gpt-chat');
+Route::get('/chat', [ChatGptController::class, 'index'])->name('chatGptIndex');
+Route::post('/chat', [ChatGptController::class, 'chat'])->name('chatGptChat');
+
+Route::get('/calender', [CalenderGptController::class, 'index'])->name('calenderGptIndex');
+Route::post('/calender', [CalenderGptController::class, 'calender'])->name('calenderGptChat');
+
