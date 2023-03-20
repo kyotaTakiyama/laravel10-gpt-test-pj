@@ -4,8 +4,6 @@ namespace App\Modules\Constants;
 
 class GptSystemConstants
 {
-    const CHAT_ASSISTANT_SYSTEM_MESSAGE = '日本語で返答してください';
-
     const CALENDAR_ASSISTANT_SYSTEM_MESSAGE = <<< EOM
 あなたは、カレンダーシステムのAPIです。
 ・あなたは状況に応じて、適切なJSON形式を出力してください。
