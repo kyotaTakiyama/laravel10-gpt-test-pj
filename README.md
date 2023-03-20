@@ -8,3 +8,6 @@
 4. [操作するGoogleカレンダーのカレンダーIDを取得](https://blog.capilano-fw.com/?p=5365)し、`.env`ファイルに記述)
 5. [Googleカレンダーにアクセスするためのアカウントキーを取得](https://blog.capilano-fw.com/?p=5365)し、「`storage/json`」ディレクトリに配置
 6. 上記アカウントキーのパスを`.env`ファイルに記述
+
+
+※chatGPT-APIは本来有料ですが、18ドル分までは無料で使用できます（支払い情報の登録不要）
