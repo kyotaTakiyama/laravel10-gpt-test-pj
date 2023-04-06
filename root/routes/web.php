@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CalenderGptController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('top');
 });
+
+Route::get('/calender', [CalenderGptController::class, 'index'])->name('calenderGptIndex');
+Route::post('/calender', [CalenderGptController::class, 'calender'])->name('calenderGptChat');
+
